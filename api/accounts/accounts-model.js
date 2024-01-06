@@ -1,27 +1,36 @@
-const db = require('../../data/db-config')
-const mw = require('./accounts-middleware')
+const db = require("../../data/db-config");
 
-const getAll = () => {
+const getAll = async () => {
   // DO YOUR MAGIC
-  return db('accounts');
-}
+  return await db("accounts");
+};
 
-const getById = id => {
+const getById = (id) => {
   // DO YOUR MAGIC
-  return db('accounts').where('id', id).first()
-}
+  //select * from accounts where id = 1
+  return db("accounts").where("id", id).first();
+};
 
-const create = account => {
+const create = async (account) => {
   // DO YOUR MAGIC
-}
+  //insert into accounts (name, budget) values ('foo', 1000)
+  const [id] = await db("accounts").insert(account);
+  return getById(id);
+};
 
-const updateById = (id, account) => {
+const updateById = async (id, account) => {
   // DO YOUR MAGIC
-}
+  // update accounts set name = 'foo', budget = 1000 where id = id
+  await db("accounts").where("id", id).update(account);
+  return getById(id);
+};
 
-const deleteById = id => {
-  // DO YOUR MAGIC
-}
+const deleteById = (id) => {
+  // delete from accounts where id = id
+  return db("accounts").where("id", id).del();
+  //this returns the num of records deleted
+  //but thanks to our middleware, we have a req.account
+};
 
 module.exports = {
   getAll,
@@ -29,4 +38,4 @@ module.exports = {
   create,
   updateById,
   deleteById,
-}
+};
