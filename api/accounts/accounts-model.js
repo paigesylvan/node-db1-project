@@ -1,9 +1,14 @@
+const db = require('../../data/db-config')
+const mw = require('./accounts-middleware')
+
 const getAll = () => {
   // DO YOUR MAGIC
+  return db('accounts');
 }
 
 const getById = id => {
   // DO YOUR MAGIC
+  return db('accounts').where('id', id).first()
 }
 
 const create = account => {
